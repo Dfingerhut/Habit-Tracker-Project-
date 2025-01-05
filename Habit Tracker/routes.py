@@ -32,8 +32,11 @@ def index():
     habits_on_date = current_app.db.habits.find({"added": {"$lte": selected_date}})
     completions = [
         habit["habit"]
-        for habit in current_app.db.completions.find({"date": selected_date})
+        for habit in current_app.db.completions.find(
+            {"date": selected_date}, max_time_ms=5000
+        )
     ]
+
 
     return render_template(
         "index.html",
